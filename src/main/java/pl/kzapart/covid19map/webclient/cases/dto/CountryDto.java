@@ -9,5 +9,5 @@ import java.util.List;
 @Setter
 public class CountryDto {
 
-    private List<CountryDataDto> data;
+    private List<CountryResponseDto> response;
 }

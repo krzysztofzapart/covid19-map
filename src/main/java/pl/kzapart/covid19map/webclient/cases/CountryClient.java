@@ -18,31 +18,46 @@ import java.util.List;
 public class CountryClient {
 
     private final RestTemplate restTemplate;
-    private static final String COUNTRIES_URL = "https://covid-19-v1.p.rapidapi.com/v1/countries";
+    private static final String COUNTRIES_URL = "https://covid-193.p.rapidapi.com/statistics";
 
     public List<Country> getCoutries() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("x-rapidapi-host", "covid-19-v1.p.rapidapi.com");
+        headers.set("x-rapidapi-host", "covid-193.p.rapidapi.com");
         headers.set("x-rapidapi-key",System.getenv("API_KEY"));
         HttpEntity entity = new HttpEntity(headers);
         ResponseEntity<CountryDto> response = restTemplate.exchange(COUNTRIES_URL, HttpMethod.GET, entity, CountryDto.class);
         CountryDto country = response.getBody();
 
         List<Country> countries = new LinkedList<>();
-        for(int i=0; i<country.getData().size();i++ )
+        for(int i=0; i<country.getResponse().size();i++ )
         {
+
             countries.add(Country.builder()
-                    .country(country.getData().get(i).getCountry())
-                    .todayCases(country.getData().get(i).getTodayCases())
-                    .population(country.getData().get(i).getPopulation())
-                    .casesPer(calculatePer100k(country.getData().get(i).getPopulation(), country.getData().get(i).getTodayCases()))
+                    .country(country.getResponse().get(i).getCountry())
+                    .population(country.getResponse().get(i).getPopulation())
+                    .dailyCases(castDailyCases(country.getResponse().get(i).getCases().getDailyCases()))
+                    .dailyDeaths(castDailyCases(country.getResponse().get(i).getDeaths().getDailyDeaths()))
+                    .casesPer(calculatePer100k(country.getResponse().get(i).getPopulation(),castDailyCases(country.getResponse().get(i).getCases().getDailyCases())))
                     .build());
+
         }
         return countries;
     }
-    private float calculatePer100k(int population, int todayCases)
+
+    private int castDailyCases(String dailyCases) {
+        if(dailyCases==null)
+            return 0;
+        else
+        {
+           String temp = dailyCases.substring(1);
+           return Integer.parseInt(temp);
+        }
+        
+    }
+
+    private int calculatePer100k(int population, int todayCases)
     {
-        float cases;
+        int cases;
         if (population==0)
             return cases = 0;
         else
