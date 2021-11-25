@@ -52,16 +52,23 @@ public class CountryClient {
            String temp = dailyCases.substring(1);
            return Integer.parseInt(temp);
         }
-        
+
     }
 
     private int calculatePer100k(int population, int todayCases)
     {
-        int cases;
+        long cases=0L;
         if (population==0)
-            return cases = 0;
+            return (int) (cases = 0);
         else
-            return cases = (todayCases*100000)/population;
+        {
+            long x = todayCases* 100000L;
+            long y = x/population;
+            return (int) y;
+        }
+
+
+
 
     }
 }
