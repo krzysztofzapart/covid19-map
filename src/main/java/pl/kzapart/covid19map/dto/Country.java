@@ -15,4 +15,5 @@ public class Country {
     private int casesPer;
     private String country;
     private int population;
+    private int death;
 }

@@ -31,15 +31,14 @@ public class CountryClient {
         List<Country> countries = new LinkedList<>();
         for(int i=0; i<country.getResponse().size();i++ )
         {
-
             countries.add(Country.builder()
                     .country(country.getResponse().get(i).getCountry())
                     .population(country.getResponse().get(i).getPopulation())
                     .dailyCases(castDailyCases(country.getResponse().get(i).getCases().getDailyCases()))
                     .dailyDeaths(castDailyCases(country.getResponse().get(i).getDeaths().getDailyDeaths()))
                     .casesPer(calculatePer100k(country.getResponse().get(i).getPopulation(),castDailyCases(country.getResponse().get(i).getCases().getDailyCases())))
+                    .death(castDailyCases(country.getResponse().get(i).getDeaths().getDailyDeaths()))
                     .build());
-
         }
         return countries;
     }

@@ -26,4 +26,12 @@ public class CountryController {
         model.addAttribute("countries", countryService.getCoutries());
         return "map";
     }
+
+    @GetMapping("/deaths")
+    public String getDeaths(Model model)
+    {
+        model.addAttribute("countries", countryService.getCoutries());
+        return "deaths";
+    }
+
 }
