@@ -23,7 +23,7 @@ public class CountryClient {
     public List<Country> getCoutries() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("x-rapidapi-host", "covid-193.p.rapidapi.com");
-        headers.set("x-rapidapi-key",System.getenv("API_KEY"));
+        headers.set("x-rapidapi-key","cdd95c2ed2msh46d1517fc73ea3dp1d7e84jsn0ec3a82ea7ae");
         HttpEntity entity = new HttpEntity(headers);
         ResponseEntity<CountryDto> response = restTemplate.exchange(COUNTRIES_URL, HttpMethod.GET, entity, CountryDto.class);
         CountryDto country = response.getBody();
